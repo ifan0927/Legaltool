@@ -1,0 +1,111 @@
+{% extends "layout.html" %}
+{% block main %}
+<div class="container">
+    
+    <hr class="bg-dark border-2 border-top border-dark">
+    <div class="row">
+        <!-- 表格顯示填入資料 
+        TODO
+        -->
+        <form id ="data" action="/generate" enctype="multipart/form-data" method="POST">
+        <table id="mytable" class="table-responsive" >
+            <thead>
+              <tr align="center">
+                <th scope="col-2">有無拋棄繼承</th>
+                <th scope="col">姓名</th>
+                <th scope="col" >出生日</th>
+                <th scope="col" >死亡日</th>
+                <th scope="col" >配偶</th>
+                <th scope="col" >子女</th>
+                <th scope="col" >身分證字號</th>
+                <th scope="col" >稱謂</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table-active">
+                <td><input class="form-check-input" type="checkbox" disabled value="1" name="check1"><input class="form-check-input" type="hidden" value="0" name="check1"></td>
+                <td><input type="text" class="form-control" id="name1" name="name1"></td>
+                <td><input type="date" class="form-control " id="bday1" name="bday1"></td>
+                <td><input type="date" class="form-control " id="dday1" name="dday1"></td>
+                <td><input type="text" class="form-control " id="wife1"  name="wife1"></td>
+                <td><input type="text" class="form-control " id="son1" name="son1"></td>
+                <td><input type="text" class="form-control " id="id1" name="id1"></td>
+                <td><input type="text" class="form-control " id="call1" name="call1"></td>
+              </tr>
+            </tbody>
+        </table>
+            <div class="mt-3" align="center">
+              <div class="row">
+                <div class="col">
+                  <button type="button" class="btn btn-primary " onclick="addrow();" >新增資料</button>
+                </div>
+                <div class="col">
+                  <button type="button" class="btn btn-danger " onclick="deleterow();" >刪除最後一筆</button>
+                </div>
+                <div class="col">
+                  <button type="submit" class="btn btn-primary"   >輸出繼承系統表</button>
+                </div>
+              </div>
+            </div>
+        </form>
+    </div>
+    
+</div>
+
+<script>
+  function addrow() {
+    var table = document.getElementById("mytable");
+    var rowcount = table.tBodies[0].rows.length
+    var add = rowcount + 1;
+    var row = table.insertRow(-1);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    var cell5 = row.insertCell(4);
+    var cell6 = row.insertCell(5);
+    var cell7 = row.insertCell(6);
+    var cell8 = row.insertCell(7);
+    cell1.innerHTML = "<input class='form-check-input' type='checkbox' value='1' name='check"+add+"'>";
+    cell2.innerHTML = "<input type='text' class='form-control' name='name"+add+"' >";
+    cell3.innerHTML = "<input type='date' class='form-control' name='bday"+add+"' >";
+    cell4.innerHTML = "<input type='date' class='form-control' name='dday"+add+"' >";
+    cell5.innerHTML = "<input type='text' class='form-control' name='wife"+add+"' >";
+    cell6.innerHTML = "<input type='text' class='form-control' name='son"+add+"' >";
+    cell7.innerHTML = "<input type='text' class='form-control' name='id"+add+"' >";
+    cell8.innerHTML = "<input type='text' class='form-control' name='call"+add+"' >";
+    console.log(rowcount);
+}
+  
+  function deleterow() {
+    var table = document.getElementById("mytable");
+    var rowcount = table.tBodies[0].rows.length
+    if (rowcount == 1)
+    {
+      console.log("OK");
+    }
+    else
+    {
+      document.getElementById("mytable").deleteRow(-1);
+    }
+
+  }
+  $("form").submit(function () {
+
+  var this_master = $(this);
+
+  this_master.find('input[type="checkbox"]').each( function () {
+      var checkbox_this = $(this);
+
+
+      if( checkbox_this.is(":checked") == true ) {
+          checkbox_this.attr('value','1');
+      } else {
+          checkbox_this.prop('checked',true);
+          //DONT' ITS JUST CHECK THE CHECKBOX TO SUBMIT FORM DATA    
+          checkbox_this.attr('value','0');
+      }
+  })
+  })
+</script>
+{% endblock %}
