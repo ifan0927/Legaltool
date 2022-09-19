@@ -25,32 +25,37 @@ def get_excel():
 
         d = dict() ## 
         l = list() ## 存放所有name 當 dict的索引
+        gen = list() ## 存放每筆資料的 gen
         for i in range(number):
             n = i + 1
             objectname = request.form.get('name'+ str(n))
             bday = request.form.get('bday' + str(n))
             dday = request.form.get('dday' + str(n))
-            d[objectname] = person(request.form.get('check'+ str(n)), bday , dday ,request.form.get('wife'+ str(n)),request.form.get('son'+ str(n)),request.form.get('id'+ str(n)),request.form.get('call'+ str(n)), 0)
+            d[objectname] = person(request.form.get('check'+ str(n)), bday , dday ,request.form.get('wife'+ str(n)),request.form.get('parent'+ str(n)),request.form.get('id'+ str(n)),request.form.get('call'+ str(n)))
             l.append(objectname)
 
-        make_excel(l)
+        
 
+        for x in range(len(l)):
+            gen.append(gen_count(d, l[x])) # 取得gen 資料
+            # 計算後代數量 = 小孩數 + 小孩的配偶數
+            if (d[l[x]].parent != ""):
+                name = d[l[x]].parent
+                d[name].soncount = d[name].soncount + 1 
+            if (d[l[x]].wife != ""):
+                name = d[l[x]].parent
+                wife_n = d[l[x]].wife.split(',')
+                d[name].soncount = d[name].soncount + len(wife_n)
+        
+        make_excel(d, l, app, gen)
 
-        #for x in range(len(l)):
-        #     son_n = d[l[x]].son.split(',')
+        #     son = d[l[x]].son.split(',')
         #     wife_n = d[l[x]].wife.split(',')
-        #     print(son_n[0],file=sys.stderr)
+        #     print(son[0],file=sys.stderr)
             # gen_count = 0 ## 幾代計算
             # d[l[x]].gen_set(1)
             # print(d[l[x]].gen,file=sys.stderr)
-        # d[l[0]].draw(5,1, l[0])
         
-
-        # ws0.column_dimensions['B'].width = 42
-        # ws0.column_dimensions['C'].width = 14 
-        # ws0.column_dimensions['E'].width = 13
-        # ws0.column_dimensions['F'].width = 14
-        # wb.save(app.root_path +'/xlsx/'+ filename)
 
         ## 下載功能 line67  
         ## return send_from_directory('xlsx',filename, as_attachment=True)
@@ -60,8 +65,13 @@ def get_excel():
     
     return redirect('/')
 
-
-
+def gen_count(d, name):
+    if (d[name].parent != ""):
+        return 1 + gen_count(d, d[name].parent)
+    else:
+        return 1
+        
+        
 if __name__ == '__main__':
     app.debug = True
     app.run()

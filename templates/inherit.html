@@ -16,7 +16,7 @@
                 <th scope="col" >出生日</th>
                 <th scope="col" >死亡日</th>
                 <th scope="col" >配偶</th>
-                <th scope="col" >子女</th>
+                <th scope="col" >父母</th>
                 <th scope="col" >身分證字號</th>
                 <th scope="col" >稱謂</th>
               </tr>
@@ -28,7 +28,7 @@
                 <td><input type="date" class="form-control " id="bday1" name="bday1"></td>
                 <td><input type="date" class="form-control " id="dday1" name="dday1"></td>
                 <td><input type="text" class="form-control " id="wife1"  name="wife1"></td>
-                <td><input type="text" class="form-control " id="son1" name="son1"></td>
+                <td><input type="text" class="form-control " id="son1" name="parent1"></td>
                 <td><input type="text" class="form-control " id="id1" name="id1"></td>
                 <td><input type="text" class="form-control " id="call1" name="call1"></td>
               </tr>
@@ -71,7 +71,7 @@
     cell3.innerHTML = "<input type='date' class='form-control' name='bday"+add+"' >";
     cell4.innerHTML = "<input type='date' class='form-control' name='dday"+add+"' >";
     cell5.innerHTML = "<input type='text' class='form-control' name='wife"+add+"' >";
-    cell6.innerHTML = "<input type='text' class='form-control' name='son"+add+"' >";
+    cell6.innerHTML = "<input type='text' class='form-control' name='parent"+add+"' >";
     cell7.innerHTML = "<input type='text' class='form-control' name='id"+add+"' >";
     cell8.innerHTML = "<input type='text' class='form-control' name='call"+add+"' >";
     console.log(rowcount);
